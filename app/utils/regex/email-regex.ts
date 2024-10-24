@@ -1,0 +1,1 @@
+export const emailRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.com$")
