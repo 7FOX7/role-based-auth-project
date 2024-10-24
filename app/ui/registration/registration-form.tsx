@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useActionState } from "react"
 import { State } from "../../lib/definitions"
-import { createUser } from "../../actions/registration-form-action"
+import createUser from "../../actions/registration-form-action"
 import { mediumPasswordRegex } from "@/app/utils/regex/password-regex"
 import { strongPasswordRegex } from "@/app/utils/regex/password-regex"
 import PasswordStrengthBar from "./password-strength-bar"
@@ -37,6 +37,7 @@ export default function RegistrationForm() {
       else if(mediumPasswordRegex.test(e.target.value)) {
          setBarColor('bg-orange-500')
          setBarWidth('w-4/6')
+         setPasswordMessage('Password should include at least: 1 Uppercase letter, 1 Number, 1 Special character')
       }
       else {
          setBarColor('bg-red-500')
@@ -134,6 +135,11 @@ export default function RegistrationForm() {
          >
             Submit
          </button>
+         {state?.message && 
+            <div>
+               <p className="mt-2 text-sm text-red-500">{state.message}</p>
+            </div>
+         }
       </form>
       <button onClick={() => router.replace('/login')}>Already registered? Sign in instead</button>
       </>
