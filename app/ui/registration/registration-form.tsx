@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useActionState } from "react"
 import { State } from "../../lib/definitions"
-import createUser from "../../actions/registration-form-action"
+import register from "../../actions/registration-form-action"
 import { mediumPasswordRegex } from "@/app/utils/regex/password-regex"
 import { strongPasswordRegex } from "@/app/utils/regex/password-regex"
 import PasswordStrengthBar from "./password-strength-bar"
@@ -26,7 +26,7 @@ export default function RegistrationForm() {
    const [passwordMessage, setPasswordMessage] = useState(''); 
 
    const router = useRouter(); 
-   const [state, formAction] = useActionState(createUser, initialState)
+   const [state, formAction] = useActionState(register, initialState)
       
    function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
       if(strongPasswordRegex.test(e.target.value)) {

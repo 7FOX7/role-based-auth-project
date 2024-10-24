@@ -17,7 +17,7 @@ const FormSchema = z.object({
    password: z.string().regex(strongPasswordRegex, "Password should include at least: 1 Uppercase letter, 1 Number, 1 Special character").trim(), 
 })
 
-export default async function createUser(prevState: State, formData: FormData) {
+export default async function register(prevState: State, formData: FormData) {
    const validatedEntries = FormSchema.safeParse({
       firstName: formData.get('firstName'), 
       lastName: formData.get('lastName'), 
@@ -47,7 +47,7 @@ export default async function createUser(prevState: State, formData: FormData) {
             message: 'User with the given email already exists.'
          }
       }
-      
+
       const hashedPassword = await argon2.hash(password, {hashLength: 12})
       const user = await prisma.user.create({
          data: {
