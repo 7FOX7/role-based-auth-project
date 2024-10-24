@@ -5,8 +5,8 @@ import { useState } from "react"
 import { useActionState } from "react"
 import { State } from "../../lib/definitions"
 import { createUser } from "../../actions/registration-form-action"
-import { mediumPasswordRegex } from "@/app/utils/regex/password-strength"
-import { strongPasswordRegex } from "@/app/utils/regex/password-strength"
+import { mediumPasswordRegex } from "@/app/utils/regex/password-regex"
+import { strongPasswordRegex } from "@/app/utils/regex/password-regex"
 import PasswordStrengthBar from "./password-strength-bar"
 
 const initialState: State = {
@@ -15,13 +15,20 @@ const initialState: State = {
 }
 
 export default function RegistrationForm() {
+   const [inputValues, setInputValues] = useState({
+      firstName: '', 
+      lastName: '', 
+      email: '', 
+   })
+
    const [barColor, setBarColor] = useState('none'); 
    const [barWidth, setBarWidth] = useState('w-0');  
    const [passwordMessage, setPasswordMessage] = useState(''); 
+
    const router = useRouter(); 
    const [state, formAction] = useActionState(createUser, initialState)
+      
    function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
-      console.log('the event value is: ' + e.target.value)
       if(strongPasswordRegex.test(e.target.value)) {
          setBarColor('bg-green-500')
          setBarWidth('w-6/6')
@@ -38,6 +45,11 @@ export default function RegistrationForm() {
       }
    }
 
+   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+      const {name, value} = e.target
+      setInputValues((prev) => ({...prev, [name]: value}))
+   }
+
    return (
       <>
       <form action={formAction} className="flex flex-col">
@@ -47,6 +59,8 @@ export default function RegistrationForm() {
             className="mb-5" 
             type="text" 
             placeholder="First Name" 
+            value={inputValues.firstName}
+            onChange={handleInputChange}
          />
          <div 
             id="firstName-error" 
@@ -63,6 +77,8 @@ export default function RegistrationForm() {
             className="mb-5" 
             type="text" 
             placeholder="Last Name" 
+            value={inputValues.lastName}
+            onChange={handleInputChange}
          />
          <div 
             id="lastName-error" 
@@ -78,7 +94,9 @@ export default function RegistrationForm() {
             aria-describedby="email-error" 
             className="mb-5" 
             type="text" 
-            placeholder="Email" 
+            placeholder="Email"
+            value={inputValues.email}
+            onChange={handleInputChange}
          />
          <div 
             id="email-error" 
@@ -121,14 +139,3 @@ export default function RegistrationForm() {
       </>
    )
 }
-
-/*
-   the idea: implement the dynamic password checking
-
-   possible implementation: 
-
-   add the 'onChange' listener to the password; 
-
-   whenever the user is typing something in, use 'isValidPassword' function to check if the password is strong enough; 
-   
-*/
