@@ -7,3 +7,8 @@ export type State = {
    }
    message?: string
 }
+
+export type SessionPayload = {
+   id: string, 
+   isAdmin: boolean
+}
