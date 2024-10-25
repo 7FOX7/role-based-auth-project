@@ -3,21 +3,16 @@
 export default function PasswordStrengthBar({
    barColor, 
    barWidth, 
-   passwordMessage
    }: {
       barColor: string, 
       barWidth: string, 
-      passwordMessage: string 
    }) {
-         
+
    return (
-      <>
-         <div>
-            <p>{passwordMessage}</p>
+      <div className="w-56">
+         <div className="bg-gray-300 w-full h-2 rounded-md mt-2">
+            <div className={`${barColor} ${barWidth} h-full rounded-md`} />
          </div>
-         <div className="bg-gray-500 w-full h-4">
-            <div className={`${barColor} ${barWidth} h-full`} />
-         </div>
-      </>
+      </div>
    )
 } 
