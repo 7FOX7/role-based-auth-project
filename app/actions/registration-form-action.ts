@@ -7,17 +7,31 @@ import { redirect } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
 import { strongPasswordRegex } from "../utils/regex/password-regex";
 import * as argon2 from "argon2"; 
+import {createSession} from "../lib/session";
+import { SessionPayload } from "../lib/definitions";
 
 const prisma = new PrismaClient(); 
 
+
 const FormSchema = z.object({
-   firstName: z.string().min(1, "First name is required").trim(),
-   lastName: z.string().min(1, "Last name is required").trim(), 
+   firstName: z.string().min(1, "First name is required").trim().transform((val) => {
+      const firstLetter = val.charAt(0).toUpperCase(); 
+      const rest = val.substring(1, val.length)
+      const full = firstLetter + rest
+      return full
+   }),
+   lastName: z.string().min(1, "Last name is required").trim().transform((val) => {
+      const firstLetter = val.charAt(0).toUpperCase(); 
+      const rest = val.substring(1, val.length)
+      const full = firstLetter + rest
+      return full
+   }), 
    email: z.string().regex(emailRegex, "Email address is invalid").trim(),
    password: z.string().regex(strongPasswordRegex, "Password should include at least: 1 Uppercase letter, 1 Number, 1 Special character").trim(), 
 })
 
 export default async function register(prevState: State, formData: FormData) {
+   let sessionPayload: SessionPayload 
    const validatedEntries = FormSchema.safeParse({
       firstName: formData.get('firstName'), 
       lastName: formData.get('lastName'), 
@@ -54,14 +68,18 @@ export default async function register(prevState: State, formData: FormData) {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
          }
       })
-      console.log(user)
+      sessionPayload = {
+         id: user.id.toString(), 
+         isAdmin: user.isAdmin
+      }
    }
    catch(err) {
       throw new Error('Server Error. Failed to create a new user: ' + err)
    }
 
+   await createSession(sessionPayload)   
    redirect('/')
 }
