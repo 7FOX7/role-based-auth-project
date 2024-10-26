@@ -1,12 +1,12 @@
 "use server"
 
-import { SignJWT } from "jose"
+import { JWTPayload, SignJWT } from "jose"
 import { jwtVerify } from "jose"
 import { cookies } from "next/headers"
 
 const encodedKey = new TextEncoder().encode(process.env.SECRET_KEY)
 
-async function encrypt(payload: any) {
+async function encrypt(payload: JWTPayload) {
    return new SignJWT(payload)
    .setProtectedHeader({alg: 'HS256'})
    .setIssuedAt()
@@ -29,7 +29,7 @@ export async function decrypt(session: string | undefined) {
    }
 }
 
-export async function createSession(sessionPayload: any) {
+export async function createSession(sessionPayload: JWTPayload) {
    try {   
       const expires = new Date(Date.now() + 2 * 60 * 1000)     // 2 minutes
       const session = await encrypt(sessionPayload)
