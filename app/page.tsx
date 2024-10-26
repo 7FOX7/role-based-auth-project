@@ -1,17 +1,15 @@
 "use client"
 
-import { redirect } from "next/navigation";
-import { deleteSession } from "./lib/session";
+import Table from "./ui/table";
+import Logout from "./ui/logout";
+import Header from "./ui/header";
 
 export default function Home() {
-  async function handleLogout() {
-    deleteSession()
-    redirect('/login')
-  }
   return (
     <>
-      <p>Hello</p>
-      <button onClick={handleLogout}>Logout</button>
+      <Header />
+      <Logout />
+      <Table />
     </>
   );
 }
