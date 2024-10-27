@@ -2,15 +2,15 @@
 
 import { z } from "zod";
 import { emailRegex } from "../utils/regex/email-regex";
+import { PrismaClient } from "@prisma/client";
 import { State } from "../lib/definitions";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
 import { strongPasswordRegex } from "../utils/regex/password-regex";
 import * as argon2 from "argon2"; 
 import {createSession} from "../lib/session";
 import { SessionPayload } from "../lib/definitions";
 
-const prisma = new PrismaClient(); 
+const prisma = new PrismaClient();
 
 const FormSchema = z.object({
    firstName: z.string().min(1, "First name is required").trim().transform((val) => {

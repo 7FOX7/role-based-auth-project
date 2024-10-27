@@ -3,13 +3,12 @@
 import { z } from "zod";
 import * as argon2 from "argon2"
 import { PrismaClient } from "@prisma/client";
-import { redirect } from "next/navigation";
 import { State } from "../lib/definitions";
+import { redirect } from "next/navigation";
 import {createSession} from "../lib/session";
 import { SessionPayload } from "../lib/definitions";
 
 const prisma = new PrismaClient(); 
-
 const FormSchema = z.object({
    firstName: z.string().optional(), 
    lastName: z.string().optional(), 
