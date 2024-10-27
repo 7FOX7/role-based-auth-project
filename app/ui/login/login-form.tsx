@@ -28,6 +28,12 @@ export default function LoginForm() {
 
    return (
       <>
+         <div className="relative mb-8 w-3/4 md:w-2/4 bg-emerald-500 p-5 break-all">
+            <p>Enter the following credentials to login as an <span className="italic font-semibold">Admin</span>:</p>
+            <br />
+            <p><strong>Email: </strong>marshabadd@yahoo.com</p>
+            <p><strong>Password: </strong>youta124Che*</p>
+         </div>
          <form action={formAction} className="flex flex-col">
             <div className="grid gap-6 mb-6 md:grid-cols-2">
                <div className="w-full">

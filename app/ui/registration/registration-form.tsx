@@ -54,6 +54,9 @@ export default function RegistrationForm() {
 
    return (
       <>
+      <div className="relative mb-8 w-3/4 md:w-2/4 bg-emerald-500 p-5 break-all">
+         <p>If you want to try as an <span className="italic font-semibold">Admin</span>, you need to login instead.</p>
+      </div>
       <form action={formAction}>
          <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div className="w-full">
@@ -155,7 +158,7 @@ export default function RegistrationForm() {
                      id="password-error" 
                      aria-live="polite" 
                      aria-atomic="true"
-                     className="w-56"
+                     className="w-60 md:w-56"
                   >
                      {state?.errors?.password?.map((error) => {
                         return <p key={error} className="mt-2 text-sm text-red-500">{error}</p>
