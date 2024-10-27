@@ -11,6 +11,8 @@ import { SessionPayload } from "../lib/definitions";
 const prisma = new PrismaClient(); 
 
 const FormSchema = z.object({
+   firstName: z.string().optional(), 
+   lastName: z.string().optional(), 
    email: z.string().min(1, "Email field cannot be empty").trim(),
    password: z.string().min(1, "Password field cannot be empty").trim(), 
 })

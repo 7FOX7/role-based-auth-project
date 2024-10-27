@@ -12,7 +12,6 @@ import { SessionPayload } from "../lib/definitions";
 
 const prisma = new PrismaClient(); 
 
-
 const FormSchema = z.object({
    firstName: z.string().min(1, "First name is required").trim().transform((val) => {
       const firstLetter = val.charAt(0).toUpperCase(); 
